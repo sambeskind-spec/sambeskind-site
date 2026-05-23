@@ -23,9 +23,11 @@
 
   <section class="section">
     <div class="section-inner">
-      <p>My name is Sam Beskind. I grew up in Tucson, Arizona. I work at <a href="https://floodgate.com" target="_blank" rel="noopener">Floodgate</a> as Chief of Staff to <a href="https://x.com/m2jr" target="_blank" rel="noopener">Mike Maples Jr.</a> I played basketball at Stanford and studied energy systems.</p>
-      <p>I care deeply about relationships and learning — and taking actions that compound over time. I believe you can be ruthlessly competitive and unbelievably kind at the same time.</p>
-      <p>I also run <a href="https://thevictory.club" target="_blank" rel="noopener">The Victory Club</a>.</p>
+      <p>I care deeply about relationships.</p>
+      <p>I enjoy learning and taking actions that compound over time.</p>
+      <p>I believe you can be ruthlessly competitive and unbelievably kind at the same time.</p>
+      <p><a href="user-manual.html">Learn more about me in my user manual.</a></p>
+      <p>I work at <a href="https://floodgate.com" target="_blank" rel="noopener">Floodgate</a> as Chief of Staff to <a href="https://x.com/m2jr" target="_blank" rel="noopener">Mike Maples Jr.</a> I played basketball at Stanford and studied energy systems. I also run <a href="https://thevictory.club" target="_blank" rel="noopener">The Victory Club</a>.</p>
       <div class="contact-links">
         <a href="mailto:sam@floodgate.com">email</a>
         <a href="https://x.com/sambeskind" target="_blank" rel="noopener">x / twitter</a>
@@ -34,199 +36,9 @@
     </div>
   </section>
 
-  <section class="section fortune-section">
-    <div class="fortune-container">
-      <div class="fortune-header">
-        <div class="section-title">pick a fortune</div>
-        <p class="text-muted">click a cookie to reveal a reminder</p>
-      </div>
-      <div class="fortune-grid" id="fortune-grid"></div>
-    </div>
-  </section>
-
 </main>
 <footer>
   <p>give your all.</p>
 </footer>
-<script>
-const fortunes = [
-  {
-    quote: '\u201CLeadership is an action, not a position.\u201D',
-    attribution: 'Shared with me by @CondoleezzaRice // originally from Donald McGannon',
-    commentary: 'You don\u2019t have to be the \u201Cleader\u201D to lead. Deliver on your strengths, be an energy giver, and help those around you see their potential. That\u2019s leadership.'
-  },
-  {
-    quote: '\u201CLess impressed, more involved.\u201D',
-    attribution: '@McConaughey',
-    commentary: 'Whenever you find yourself in awe of something, don\u2019t just admire, find a way in.'
-  },
-  {
-    quote: '\u201CHow can I have the most fun doing what I need to do today?\u201D',
-    attribution: '@JamesClear',
-    commentary: 'If something is fun, not only will others will want in, but any task becomes infinitely sustainable. Make every day fun.'
-  },
-  {
-    quote: '\u201CThe art of juggling isn\u2019t trying to keep all of the balls in the air, it\u2019s figuring out which ones are ok to drop.\u201D',
-    attribution: '',
-    commentary: 'When life feels too busy, find your focus. There is enough time, it might just require some flexibility and creativity.'
-  },
-  {
-    quote: '\u201CYou\u2019re in danger of living a life so comfortable that you will die without ever reaching your full potential.\u201D',
-    attribution: '@davidgoggins',
-    commentary: 'Seek discomfort. Get to the point where you embrace it \u2013 bake it into your identity. Tough times don\u2019t last, tough people do.'
-  },
-  {
-    quote: '\u201CEnthusiasm makes up for a host of deficiencies.\u201D',
-    attribution: '@BarackObama',
-    commentary: 'If you\u2019re an eager, humble learner, others will be willing to help you. And through that, your ceiling becomes infinitely greater.'
-  },
-  {
-    quote: 'Ban the \u201CIf onlys\u201D.',
-    attribution: '',
-    commentary: 'A magical place where everything is perfect doesn\u2019t exist. Thinking \u201Cif only\u201D will deprive you of the beauties and joys of where you are right now. Win and enjoy today, and the rest will take care of itself.'
-  },
-  {
-    quote: '\u201CNo matter what you do, be world class.\u201D',
-    attribution: '@annimaniac',
-    commentary: 'Whether it\u2019s sweeping your kitchen floor, building a relationship, or doing the most important job of your life \u2013 strive to be the best in that moment. A world class mentality can become an identity.'
-  },
-  {
-    quote: '\u201CThe successful warrior is the average man with laser like focus.\u201D',
-    attribution: 'Bruce Lee',
-    commentary: 'You don\u2019t have to be extraordinary. You just have to be clear about your objectives, and pay the rent to get there over\u2026 and over\u2026 and over.'
-  },
-  {
-    quote: '\u201CRemember when you wanted what you currently have.\u201D',
-    attribution: '',
-    commentary: 'Ambition drives us forward, but it\u2019s easy to lose sight of the good in today. Don\u2019t forget to smile, look around, and remember how far you\u2019ve come.'
-  },
-  {
-    quote: '\u201CInvest in getting help. Getting help is a sign of strength.\u201D',
-    attribution: 'John Donohue, CEO of @Nike',
-    commentary: 'Some people view asking for help as a weakness. View it as a superpower, and it will become one.'
-  },
-  {
-    quote: '\u201CNo one is going to tell you what to do. You are the \u2018they\u2019.\u201D',
-    attribution: 'The @stanforddschool\u2019s, Lisa Solomon',
-    commentary: 'If you want to be successful, you have to be willing to take risks and take ownership. No one can do it for you.'
-  },
-  {
-    quote: '\u201CSlow is smooth, smooth is fast.\u201D',
-    attribution: '',
-    commentary: 'Working hard for the sake of working hard will result in a good work ethic, but not necessarily progress. Take the time to make sure you\u2019re climbing the right mountain.'
-  },
-  {
-    quote: '\u201CThe bad days are more important than the good days. If you do what you need to do when you don\u2019t feel like it, then you maintain the habit. And if you maintain the habit, then all you need is time.\u201D',
-    attribution: '@JamesClear',
-    commentary: ''
-  },
-  {
-    quote: '\u201CYour identity does not come from what you do, but instead from who you are.\u201D',
-    attribution: '',
-    commentary: 'Never let your passion be greater than your commitment to being the best person you can be.'
-  },
-  {
-    quote: '\u201CWhat is something you\u2019d be proud to fail on, if you had the courage to attempt it?\u201D',
-    attribution: '@JamesClear',
-    commentary: 'Aim big. Go heavy.'
-  },
-  {
-    quote: '\u201CRemember how intensely you loved your boyfriend/girlfriend when you were a teenager? Love him/her that intensely now. Remember how excited and happy you got about stuff as a kid? Get that excited and happy now.\u201D',
-    attribution: '@sama',
-    commentary: ''
-  },
-  {
-    quote: '\u201CA value is not a value unless you\u2019d be willing to let it cost you.\u201D',
-    attribution: '@RyanHoliday',
-    commentary: 'Only once you\u2019re willing to sacrifice for your principles or values can you truly consider them yours.'
-  },
-  {
-    quote: '\u201COne of the most critical things you want to arrange for is failure. Our nervous system responds really well to setbacks. Losses can be the best thing to get your immediate focus.\u201D',
-    attribution: '',
-    commentary: 'The best learning comes from failure. Aim big enough that you will either succeed or learn.'
-  },
-  {
-    quote: 'E + R = O',
-    attribution: '@TimothyKight',
-    commentary: 'Event + Response = Outcome. You always have the ability to impact the outcome of an event based on how you respond. Make your response productive.'
-  }
-];
-
-const grid = document.getElementById('fortune-grid');
-const isMobile = window.innerWidth <= 640;
-
-fortunes.forEach((fortune, i) => {
-  const cookie = document.createElement('div');
-  cookie.className = 'fortune-cookie';
-  cookie.setAttribute('tabindex', '0');
-  cookie.setAttribute('role', 'button');
-  cookie.setAttribute('aria-label', 'Fortune cookie ' + (i + 1));
-
-  // Random scatter
-  const rot = (Math.random() - 0.5) * (isMobile ? 16 : 30);
-  const tx = (Math.random() - 0.5) * (isMobile ? 10 : 20);
-  const ty = (Math.random() - 0.5) * (isMobile ? 8 : 16);
-  const sc = isMobile ? (0.95 + Math.random() * 0.1) : (0.9 + Math.random() * 0.2);
-  const scatter = 'rotate(' + rot + 'deg) translate(' + tx + 'px, ' + ty + 'px) scale(' + sc + ')';
-
-  cookie.style.setProperty('--scatter-transform', scatter);
-  cookie.style.setProperty('--enter-delay', (150 + i * 60) + 'ms');
-  cookie.dataset.baseTransform = scatter;
-
-  cookie.innerHTML =
-    '<div class="cookie-visual">' +
-      '<svg class="cookie-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">' +
-        '<defs>' +
-          '<linearGradient id="cg' + i + '" x1="0%" y1="0%" x2="100%" y2="100%">' +
-            '<stop offset="0%" stop-color="#e0a96a"/>' +
-            '<stop offset="45%" stop-color="#d4956a"/>' +
-            '<stop offset="100%" stop-color="#b87040"/>' +
-          '</linearGradient>' +
-          '<filter id="cs' + i + '" x="-10%" y="-10%" width="130%" height="140%">' +
-            '<feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.15)"/>' +
-          '</filter>' +
-        '</defs>' +
-        '<path d="M10,55 Q15,10 60,8 Q105,10 110,55 Q90,42 60,50 Q30,42 10,55 Z" ' +
-              'fill="url(#cg' + i + ')" filter="url(#cs' + i + ')"/>' +
-        '<path d="M25,48 Q60,38 95,48" fill="none" stroke="#b87040" ' +
-              'stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>' +
-        '<text x="60" y="34" text-anchor="middle" dominant-baseline="middle" ' +
-              'font-family="JetBrains Mono, monospace" font-size="14" font-weight="600" ' +
-              'fill="#fff" opacity="0.85">' + (i + 1) + '</text>' +
-      '</svg>' +
-    '</div>' +
-    '<div class="cookie-slip">' +
-      '<div class="slip-quote">' + fortune.quote + '</div>' +
-      (fortune.attribution ? '<div class="slip-attribution">' + fortune.attribution + '</div>' : '') +
-      (fortune.commentary ? '<div class="slip-commentary">' + fortune.commentary + '</div>' : '') +
-    '</div>';
-
-  cookie.addEventListener('click', function() { crackCookie(cookie); });
-  cookie.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      crackCookie(cookie);
-    }
-  });
-  cookie.addEventListener('mouseenter', function() {
-    if (!this.classList.contains('cracked')) {
-      this.style.transform = this.dataset.baseTransform + ' scale(1.1)';
-    }
-  });
-  cookie.addEventListener('mouseleave', function() {
-    if (!this.classList.contains('cracked')) {
-      this.style.transform = this.dataset.baseTransform;
-    }
-  });
-
-  grid.appendChild(cookie);
-});
-
-function crackCookie(el) {
-  if (el.classList.contains('cracked')) return;
-  el.classList.add('cracked');
-  el.style.transform = 'rotate(0deg) translate(0,0) scale(1)';
-}
-</script>
 </body>
 </html>
