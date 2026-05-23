@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #f5f2ec;
-  --bg-section: #edeae3;
-  --text: #2a2a2a;
-  --text-muted: #7a7a72;
+  --bg: #ffffff;
+  --bg-section: #f5f5f5;
+  --text: #1a1a1a;
+  --text-muted: #737373;
   --accent: #c45d3e;
-  --border: #d8d5ce;
-  --tag-bg: #e2dfda;
-  --tag-text: #5a5a52;
+  --border: #e8e8e8;
+  --tag-bg: #efefef;
+  --tag-text: #555555;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --max-width: 720px;
@@ -96,6 +96,22 @@ a:hover { text-decoration-color: var(--text); }
 .tool-item { margin-bottom: 1rem; }
 .tool-item a { font-weight: 600; font-size: 0.9rem; }
 .tool-item .tool-desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+/* SKETCHY LINKS (homepage only) */
+.about-page main a {
+  text-decoration: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='7'%3E%3Cpath d='M0,5 C10,2 22,6.5 35,4 C48,1.5 58,5.5 72,3.5 C84,1.5 96,5 108,3.5 C113,3 117,4.5 120,4' stroke='%23FBBF24' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 120px 7px;
+  padding-bottom: 3px;
+  transition: opacity 0.2s;
+}
+.about-page main a:hover { opacity: 0.65; }
+.about-page .contact-links a {
+  background-image: none;
+  padding-bottom: 0;
+}
 
 /* FOOTER */
 footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
