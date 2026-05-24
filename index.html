@@ -35,7 +35,7 @@
           <div class="manual-section about-sub">
             <h2>Currently</h2>
             <p>I work at <a href="https://floodgate.com" target="_blank" rel="noopener">Floodgate</a> as Chief of Staff to <a href="https://x.com/m2jr" target="_blank" rel="noopener">Mike Maples Jr.</a></p>
-            <p>I also run <a href="https://thevictory.club" target="_blank" rel="noopener">The Victory Club</a>.</p>
+            <p>Growing <a href="https://thevictory.club" target="_blank" rel="noopener">The Victory Club</a>.</p>
           </div>
 
           <div class="manual-section about-sub">
@@ -58,18 +58,21 @@
 
   <section class="section">
     <div class="section-inner">
-      <div class="solari-label">today's reminder</div>
-      <div class="solari-board" id="solariBoard"></div>
-      <div class="solari-meta">
-        <span class="solari-attribution" id="solariAttribution"></span>
-        <button class="solari-refresh" id="solariRefresh" aria-label="New reminder">↻</button>
+      <button class="solari-toggle" id="solariToggle" aria-expanded="false">
+        <span class="solari-caret">▶</span>
+        quote box
+      </button>
+      <div class="solari-body" id="solariBody">
+        <div class="solari-board" id="solariBoard"></div>
+        <div class="solari-meta">
+          <span class="solari-attribution" id="solariAttribution"></span>
+          <button class="solari-refresh" id="solariRefresh" aria-label="New reminder">↻</button>
+        </div>
       </div>
     </div>
   </section>
 </main>
-<footer>
-  <p>give your all.</p>
-</footer>
+<footer></footer>
 <script>
 (function () {
   'use strict';
@@ -231,15 +234,18 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var boardEl = document.getElementById('solariBoard');
-    var attrEl  = document.getElementById('solariAttribution');
-    var btnEl   = document.getElementById('solariRefresh');
+    var boardEl  = document.getElementById('solariBoard');
+    var attrEl   = document.getElementById('solariAttribution');
+    var btnEl    = document.getElementById('solariRefresh');
+    var toggleEl = document.getElementById('solariToggle');
+    var bodyEl   = document.getElementById('solariBody');
     if (!boardEl) return;
 
     var cols      = getCols();
     var tiles     = buildBoard(boardEl, cols);
-    var idx       = Math.floor(Date.now() / 86400000) % QUOTES.length;
+    var idx       = Math.floor(Math.random() * QUOTES.length);
     var animating = false;
+    var hasOpened = false;
 
     function show(i, animate) {
       var q = QUOTES[i];
@@ -252,7 +258,14 @@
       });
     }
 
-    show(idx, true);
+    toggleEl.addEventListener('click', function () {
+      var isOpen = bodyEl.classList.toggle('open');
+      toggleEl.setAttribute('aria-expanded', isOpen);
+      if (isOpen && !hasOpened) {
+        hasOpened = true;
+        show(idx, true);
+      }
+    });
 
     btnEl.addEventListener('click', function () {
       if (animating) return;
