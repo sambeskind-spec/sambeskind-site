@@ -44,9 +44,13 @@
 
           <div class="contact-links">
             <a href="mailto:sam@floodgate.com">email</a>
-            <a href="https://x.com/sambeskind" target="_blank" rel="noopener">x / twitter</a>
+            <a href="https://x.com/sambeskind" target="_blank" rel="noopener">x</a>
             <a href="https://www.linkedin.com/in/samuelbeskind/" target="_blank" rel="noopener">linkedin</a>
           </div>
+
+          <button class="solari-toggle" id="solariToggle">
+            quote bank<span class="arrow">→</span>
+          </button>
         </div>
         <div class="home-photo">
           <img src="sam.jpg" alt="Sam Beskind" />
@@ -54,24 +58,27 @@
       </div>
     </div>
   </section>
-
-  <section class="section">
-    <div class="section-inner">
-      <button class="solari-toggle" id="solariToggle" aria-expanded="false">
-        <span class="solari-caret">▶</span>
-        quote box
-      </button>
-      <div class="solari-body" id="solariBody">
-        <div class="solari-board" id="solariBoard"></div>
-        <div class="solari-meta">
-          <span class="solari-attribution" id="solariAttribution"></span>
-          <button class="solari-refresh" id="solariRefresh" aria-label="New reminder">↻</button>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 <footer></footer>
+
+<div class="solari-modal" id="solariModal">
+  <button class="solari-modal-close" id="solariClose" aria-label="Close">✕</button>
+  <div class="solari-modal-content">
+    <div class="solari-board" id="solariBoard"></div>
+    <div class="solari-meta">
+      <span class="solari-attribution" id="solariAttribution"></span>
+      <div class="quote-nav-pill">
+        <button class="quote-nav-btn" id="solariPrev" aria-label="Previous quote">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10 4 6 8 10 12"/></svg>
+        </button>
+        <button class="quote-nav-btn" id="solariNext" aria-label="Next quote">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 4 10 8 6 12"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -80,94 +87,81 @@
   var SCRAMBLE_MIN = 4;
   var SCRAMBLE_MAX = 8;
   var STAGGER_MS   = 12;
-  var ROWS         = 8;
-  var CHARSET      = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?\'-:()+-/';
+  var MIN_ROWS     = 3;
+  var CHARSET      = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?\'-:()+/-';
+  var TILE_GAP     = 2;
 
   var QUOTES = [
-    { text: "Leadership is an action, not a position.",                            attr: "Condoleezza Rice / Donald McGannon" },
-    { text: "Less impressed, more involved.",                                      attr: "McConaughey" },
-    { text: "How can I have the most fun doing what I need to do today?",          attr: "James Clear" },
-    { text: "The art of juggling isn't trying to keep all of the balls in the air, it's figuring out which ones are ok to drop.", attr: null },
+    { text: "Leadership is an action, not a position.", attr: "Condoleezza Rice / Donald McGannon" },
+    { text: "Less impressed, more involved.", attr: "McConaughey" },
+    { text: "How can I have the most fun doing what I need to do today?", attr: "James Clear" },
+    { text: "The art of juggling isn't trying to keep all of the balls in the air, it's figuring out which ones are OK to drop.", attr: null },
     { text: "You're in danger of living a life so comfortable that you will die without ever reaching your full potential.", attr: "David Goggins" },
-    { text: "Enthusiasm makes up for a host of deficiencies.",                     attr: "Barack Obama" },
-    { text: "Ban the 'If Onlys'.",                                                 attr: null },
-    { text: "No matter what you do, be world class.",                              attr: null },
-    { text: "The successful warrior is the average man with laser like focus.",    attr: "Bruce Lee" },
-    { text: "Remember when you wanted what you currently have.",                   attr: null },
-    { text: "Invest in getting help. Getting help is a sign of strength.",         attr: "John Donohue, CEO of Nike" },
-    { text: "No one is going to tell you what to do. You are the 'they'.",         attr: "Stanford d.school, Lisa Solomon" },
-    { text: "Slow is smooth, smooth is fast.",                                     attr: null },
+    { text: "Enthusiasm makes up for a host of deficiencies.", attr: "Barack Obama" },
+    { text: "Ban the 'If Onlys'.", attr: null },
+    { text: "No matter what you do, be world class.", attr: null },
+    { text: "The successful warrior is the average man with laser-like focus.", attr: "Bruce Lee" },
+    { text: "Remember when you wanted what you currently have.", attr: null },
+    { text: "Invest in getting help. Getting help is a sign of strength.", attr: "John Donohue, CEO of Nike" },
+    { text: "No one is going to tell you what to do. You are the 'they'.", attr: "Lisa Solomon, Stanford d.school" },
+    { text: "Slow is smooth, smooth is fast.", attr: null },
     { text: "The bad days are more important than the good days. If you do what you need to do when you don't feel like it, then you maintain the habit. And if you maintain the habit, then all you need is time.", attr: "James Clear" },
     { text: "Your identity does not come from what you do, but instead from who you are.", attr: null },
     { text: "What is something you'd be proud to fail on, if you had the courage to attempt it?", attr: "James Clear" },
     { text: "Remember how intensely you loved your boyfriend/girlfriend when you were a teenager? Love him/her that intensely now. Remember how excited and happy you got about stuff as a kid? Get that excited and happy now.", attr: "Sam Altman" },
-    { text: "A value is not a value unless you'd be willing to let it cost you.",  attr: "Ryan Holiday" },
+    { text: "A value is not a value unless you'd be willing to let it cost you.", attr: "Ryan Holiday" },
     { text: "One of the most critical things you want to arrange for is failure. Our nervous system responds really well to setbacks. Losses can be the best thing to get your immediate focus.", attr: null },
-    { text: "E + R = O",                                                           attr: "Timothy Kight" }
+    { text: "Event + Response = Outcome", attr: "Timothy Kight" },
+    { text: "Take aim, even poorly.", attr: "Mason Wang" }
   ];
 
-  var TILE_GAP = 2;
-  var MIN_TW   = 14;
-  var MAX_TW   = 52;
+  function getCols() { return window.innerWidth < 680 ? 16 : 24; }
 
-  function textFitsInRows(text, cols) {
-    var upper = text.toUpperCase().replace(/[^A-Z0-9 .,!?'\-:()+-\/]/g, ' ').replace(/ {2,}/g, ' ').trim();
-    var words = upper.split(' ');
-    var lines = 1, lineLen = 0;
-    for (var i = 0; i < words.length; i++) {
-      var w = Math.min(words[i].length, cols);
-      if (lineLen === 0) {
-        lineLen = w;
-      } else if (lineLen + 1 + w <= cols) {
-        lineLen += 1 + w;
-      } else {
-        lines++;
-        if (lines > ROWS) return false;
-        lineLen = w;
-      }
-    }
-    return true;
-  }
-
-  function computeLayout(text, containerWidth) {
-    var minCols = Math.max(1, Math.ceil(containerWidth / (MAX_TW + TILE_GAP)));
-    var maxCols = Math.max(minCols, Math.floor(containerWidth / (MIN_TW + TILE_GAP)));
-    var bestCols = maxCols;
-    for (var c = minCols; c <= maxCols; c++) {
-      if (textFitsInRows(text, c)) { bestCols = c; break; }
-    }
-    var tileW = Math.floor((containerWidth - (bestCols - 1) * TILE_GAP) / bestCols);
-    tileW = Math.max(MIN_TW, Math.min(MAX_TW, tileW));
-    var tileH = Math.round(tileW * 32 / 22);
+  function applyTileSize(boardEl, cols, rows) {
+    var ratio = 32 / 22;
+    // horizontal budget: widest a tile can be to fit `cols` across the modal
+    var availW = Math.min(window.innerWidth * 0.9, 1000) - 48;
+    var tileWByWidth = (availW - (cols - 1) * TILE_GAP) / cols;
+    // vertical budget: keep the whole board on screen, leaving room for the
+    // attribution + nav controls beneath it
+    var availH = window.innerHeight * 0.78 - 120;
+    var tileWByHeight = (availH - (rows - 1) * TILE_GAP) / (rows * ratio);
+    var tileW = Math.floor(Math.min(tileWByWidth, tileWByHeight));
+    if (tileW < 8) tileW = 8;
+    var tileH = Math.round(tileW * ratio);
     var half  = Math.round(tileH / 2);
     var fs    = Math.round(tileW * 16 / 22);
-    return { cols: bestCols, tileW: tileW, tileH: tileH, half: half, fs: fs };
+    var boardW = tileW * cols + (cols - 1) * TILE_GAP;
+    boardEl.style.setProperty('--tw',   tileW + 'px');
+    boardEl.style.setProperty('--th',   tileH + 'px');
+    boardEl.style.setProperty('--half', half  + 'px');
+    boardEl.style.setProperty('--fs',   fs    + 'px');
+    if (boardEl.parentNode) boardEl.parentNode.style.setProperty('--board-w', boardW + 'px');
   }
 
-  function applyLayout(boardEl, layout) {
-    boardEl.style.setProperty('--tw',   layout.tileW + 'px');
-    boardEl.style.setProperty('--th',   layout.tileH + 'px');
-    boardEl.style.setProperty('--half', layout.half  + 'px');
-    boardEl.style.setProperty('--fs',   layout.fs    + 'px');
-  }
-
-  function wrapText(text, cols) {
-    var upper = text.toUpperCase().replace(/[^A-Z0-9 .,!?'\-:()+-\/]/g, ' ').replace(/ {2,}/g, ' ').trim();
+  function wrapText(text, cols, minRows) {
+    var upper = text.toUpperCase().replace(/[^A-Z0-9 .,!?'\-:()+\/-]/g, ' ').replace(/ {2,}/g, ' ').trim();
     var words = upper.split(' ');
     var lines = [], line = '';
-    for (var i = 0; i < words.length && lines.length < ROWS; i++) {
-      var w = words[i].slice(0, cols);
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      // break any word longer than a full row across lines
+      while (w.length > cols) {
+        if (line) { lines.push(line); line = ''; }
+        lines.push(w.slice(0, cols));
+        w = w.slice(cols);
+      }
       if (!line) {
         line = w;
       } else if (line.length + 1 + w.length <= cols) {
         line += ' ' + w;
       } else {
         lines.push(line);
-        line = lines.length < ROWS ? w : '';
+        line = w;
       }
     }
-    if (line && lines.length < ROWS) lines.push(line);
-    while (lines.length < ROWS) lines.push('');
+    if (line) lines.push(line);
+    while (lines.length < minRows) lines.push('');
     return lines.map(function (l) { return (l + new Array(cols + 1).join(' ')).slice(0, cols); });
   }
 
@@ -181,10 +175,10 @@
     return t;
   }
 
-  function buildBoard(container, cols) {
+  function buildBoard(container, cols, rows) {
     container.innerHTML = '';
     var tiles = [];
-    for (var r = 0; r < ROWS; r++) {
+    for (var r = 0; r < rows; r++) {
       var row = document.createElement('div');
       row.className = 'solari-row';
       var rowTiles = [];
@@ -259,12 +253,11 @@
     });
   }
 
-  function showQuote(tiles, q, animate, cols) {
-    var lines = wrapText(q.text, cols);
+  function showQuote(tiles, lines, animate, cols) {
     var promises = [];
-    for (var r = 0; r < ROWS; r++) {
+    for (var r = 0; r < tiles.length; r++) {
       for (var c = 0; c < cols; c++) {
-        var ch = lines[r][c] || ' ';
+        var ch = (lines[r] && lines[r][c]) || ' ';
         if (animate) {
           promises.push(scrambleTile(tiles[r][c], ch, (r * cols + c) * STAGGER_MS));
         } else {
@@ -278,46 +271,84 @@
   document.addEventListener('DOMContentLoaded', function () {
     var boardEl  = document.getElementById('solariBoard');
     var attrEl   = document.getElementById('solariAttribution');
-    var btnEl    = document.getElementById('solariRefresh');
+    var prevEl   = document.getElementById('solariPrev');
+    var nextEl   = document.getElementById('solariNext');
     var toggleEl = document.getElementById('solariToggle');
-    var bodyEl   = document.getElementById('solariBody');
+    var modalEl  = document.getElementById('solariModal');
+    var closeEl  = document.getElementById('solariClose');
     if (!boardEl) return;
 
-    var cols      = 0;
-    var tiles     = [];
+    var cols      = getCols();
+    var rows      = MIN_ROWS;
+    var tiles     = buildBoard(boardEl, cols, rows);
     var idx       = Math.floor(Math.random() * QUOTES.length);
     var animating = false;
     var hasOpened = false;
 
+    applyTileSize(boardEl, cols, rows);
+
     function show(i, animate) {
       var q = QUOTES[i];
-      var containerWidth = bodyEl.offsetWidth || 600;
-      var layout = computeLayout(q.text, containerWidth);
-      if (layout.cols !== cols) {
-        cols  = layout.cols;
-        tiles = buildBoard(boardEl, cols);
+      var lines = wrapText(q.text, cols, MIN_ROWS);
+      if (lines.length !== rows) {
+        // quote needs a different number of rows — rebuild the grid to fit it
+        rows  = lines.length;
+        tiles = buildBoard(boardEl, cols, rows);
       }
-      applyLayout(boardEl, layout);
+      applyTileSize(boardEl, cols, rows);
       attrEl.textContent = q.attr ? '— ' + q.attr : '';
-      btnEl.disabled = animate;
+      prevEl.disabled = animate;
+      nextEl.disabled = animate;
       animating = animate;
-      showQuote(tiles, q, animate, cols).then(function () {
+      showQuote(tiles, lines, animate, cols).then(function () {
         animating = false;
-        btnEl.disabled = false;
+        prevEl.disabled = false;
+        nextEl.disabled = false;
+        prevEl.classList.remove('active');
+        nextEl.classList.remove('active');
+        if (document.activeElement === prevEl || document.activeElement === nextEl) {
+          document.activeElement.blur();
+        }
       });
     }
 
-    toggleEl.addEventListener('click', function () {
-      var isOpen = bodyEl.classList.toggle('open');
-      toggleEl.setAttribute('aria-expanded', isOpen);
-      if (isOpen && !hasOpened) {
+    function openModal() {
+      modalEl.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (!hasOpened) {
         hasOpened = true;
         show(idx, true);
       }
+    }
+
+    function closeModal() {
+      modalEl.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    toggleEl.addEventListener('click', openModal);
+    closeEl.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
     });
 
-    btnEl.addEventListener('click', function () {
+    modalEl.addEventListener('click', function (e) {
+      if (e.target === modalEl) closeModal();
+    });
+
+    prevEl.addEventListener('click', function () {
       if (animating) return;
+      prevEl.classList.add('active');
+      nextEl.classList.remove('active');
+      idx = (idx - 1 + QUOTES.length) % QUOTES.length;
+      show(idx, true);
+    });
+
+    nextEl.addEventListener('click', function () {
+      if (animating) return;
+      nextEl.classList.add('active');
+      prevEl.classList.remove('active');
       idx = (idx + 1) % QUOTES.length;
       show(idx, true);
     });
@@ -326,7 +357,17 @@
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
-        if (hasOpened) show(idx, false);
+        var newCols = getCols();
+        if (newCols !== cols) {
+          cols  = newCols;
+          var lines = wrapText(QUOTES[idx].text, cols, MIN_ROWS);
+          rows  = lines.length;
+          tiles = buildBoard(boardEl, cols, rows);
+          applyTileSize(boardEl, cols, rows);
+          if (hasOpened) showQuote(tiles, lines, false, cols);
+        } else {
+          applyTileSize(boardEl, cols, rows);
+        }
       }, 150);
     });
   });
