@@ -16,7 +16,6 @@
     <li><a href="index.html" class="active">about</a></li>
     <li><a href="bookshelf.html">bookshelf</a></li>
     <li><a href="writing.html">writing</a></li>
-    <li><a href="user-manual.html">user manual</a></li>
     <li><a href="projects.html">projects</a></li>
   </ul>
 </nav>
@@ -81,36 +80,79 @@
   var SCRAMBLE_MIN = 4;
   var SCRAMBLE_MAX = 8;
   var STAGGER_MS   = 12;
-  var ROWS         = 3;
-  var CHARSET      = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?\'-:()+-';
+  var ROWS         = 8;
+  var CHARSET      = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?\'-:()+-/';
 
   var QUOTES = [
     { text: "Leadership is an action, not a position.",                            attr: "Condoleezza Rice / Donald McGannon" },
     { text: "Less impressed, more involved.",                                      attr: "McConaughey" },
     { text: "How can I have the most fun doing what I need to do today?",          attr: "James Clear" },
-    { text: "The art of juggling: figure out which balls are OK to drop.",         attr: null },
-    { text: "You're in danger of living so comfortably you'll never reach your potential.", attr: "David Goggins" },
+    { text: "The art of juggling isn't trying to keep all of the balls in the air, it's figuring out which ones are ok to drop.", attr: null },
+    { text: "You're in danger of living a life so comfortable that you will die without ever reaching your full potential.", attr: "David Goggins" },
     { text: "Enthusiasm makes up for a host of deficiencies.",                     attr: "Barack Obama" },
     { text: "Ban the 'If Onlys'.",                                                 attr: null },
     { text: "No matter what you do, be world class.",                              attr: null },
-    { text: "The successful warrior is the average man with laser-like focus.",    attr: "Bruce Lee" },
+    { text: "The successful warrior is the average man with laser like focus.",    attr: "Bruce Lee" },
     { text: "Remember when you wanted what you currently have.",                   attr: null },
-    { text: "Invest in getting help. Getting help is a sign of strength.",         attr: "John Donohue, Nike CEO" },
-    { text: "No one is going to tell you what to do. You are the 'they'.",         attr: "Stanford d.school" },
+    { text: "Invest in getting help. Getting help is a sign of strength.",         attr: "John Donohue, CEO of Nike" },
+    { text: "No one is going to tell you what to do. You are the 'they'.",         attr: "Stanford d.school, Lisa Solomon" },
     { text: "Slow is smooth, smooth is fast.",                                     attr: null },
-    { text: "Do what you need to when you don't feel like it. Habit + time.",      attr: "James Clear" },
-    { text: "Your identity doesn't come from what you do, but who you are.",       attr: null },
-    { text: "What would you be proud to fail at, if you had the courage?",         attr: "James Clear" },
-    { text: "Love now as you did as a teenager. Get excited like you did as a kid.", attr: "Sam Altman" },
-    { text: "A value is not a value unless you'd let it cost you.",                attr: "Ryan Holiday" },
-    { text: "Arrange for failure. Our nervous system responds well to setbacks.",  attr: null },
+    { text: "The bad days are more important than the good days. If you do what you need to do when you don't feel like it, then you maintain the habit. And if you maintain the habit, then all you need is time.", attr: "James Clear" },
+    { text: "Your identity does not come from what you do, but instead from who you are.", attr: null },
+    { text: "What is something you'd be proud to fail on, if you had the courage to attempt it?", attr: "James Clear" },
+    { text: "Remember how intensely you loved your boyfriend/girlfriend when you were a teenager? Love him/her that intensely now. Remember how excited and happy you got about stuff as a kid? Get that excited and happy now.", attr: "Sam Altman" },
+    { text: "A value is not a value unless you'd be willing to let it cost you.",  attr: "Ryan Holiday" },
+    { text: "One of the most critical things you want to arrange for is failure. Our nervous system responds really well to setbacks. Losses can be the best thing to get your immediate focus.", attr: null },
     { text: "E + R = O",                                                           attr: "Timothy Kight" }
   ];
 
-  function getCols() { return window.innerWidth < 640 ? 20 : 26; }
+  var TILE_GAP = 2;
+  var MIN_TW   = 14;
+  var MAX_TW   = 52;
+
+  function textFitsInRows(text, cols) {
+    var upper = text.toUpperCase().replace(/[^A-Z0-9 .,!?'\-:()+-\/]/g, ' ').replace(/ {2,}/g, ' ').trim();
+    var words = upper.split(' ');
+    var lines = 1, lineLen = 0;
+    for (var i = 0; i < words.length; i++) {
+      var w = Math.min(words[i].length, cols);
+      if (lineLen === 0) {
+        lineLen = w;
+      } else if (lineLen + 1 + w <= cols) {
+        lineLen += 1 + w;
+      } else {
+        lines++;
+        if (lines > ROWS) return false;
+        lineLen = w;
+      }
+    }
+    return true;
+  }
+
+  function computeLayout(text, containerWidth) {
+    var minCols = Math.max(1, Math.ceil(containerWidth / (MAX_TW + TILE_GAP)));
+    var maxCols = Math.max(minCols, Math.floor(containerWidth / (MIN_TW + TILE_GAP)));
+    var bestCols = maxCols;
+    for (var c = minCols; c <= maxCols; c++) {
+      if (textFitsInRows(text, c)) { bestCols = c; break; }
+    }
+    var tileW = Math.floor((containerWidth - (bestCols - 1) * TILE_GAP) / bestCols);
+    tileW = Math.max(MIN_TW, Math.min(MAX_TW, tileW));
+    var tileH = Math.round(tileW * 32 / 22);
+    var half  = Math.round(tileH / 2);
+    var fs    = Math.round(tileW * 16 / 22);
+    return { cols: bestCols, tileW: tileW, tileH: tileH, half: half, fs: fs };
+  }
+
+  function applyLayout(boardEl, layout) {
+    boardEl.style.setProperty('--tw',   layout.tileW + 'px');
+    boardEl.style.setProperty('--th',   layout.tileH + 'px');
+    boardEl.style.setProperty('--half', layout.half  + 'px');
+    boardEl.style.setProperty('--fs',   layout.fs    + 'px');
+  }
 
   function wrapText(text, cols) {
-    var upper = text.toUpperCase().replace(/[^A-Z0-9 .,!?'\-:()+-]/g, ' ').replace(/ {2,}/g, ' ').trim();
+    var upper = text.toUpperCase().replace(/[^A-Z0-9 .,!?'\-:()+-\/]/g, ' ').replace(/ {2,}/g, ' ').trim();
     var words = upper.split(' ');
     var lines = [], line = '';
     for (var i = 0; i < words.length && lines.length < ROWS; i++) {
@@ -241,14 +283,21 @@
     var bodyEl   = document.getElementById('solariBody');
     if (!boardEl) return;
 
-    var cols      = getCols();
-    var tiles     = buildBoard(boardEl, cols);
+    var cols      = 0;
+    var tiles     = [];
     var idx       = Math.floor(Math.random() * QUOTES.length);
     var animating = false;
     var hasOpened = false;
 
     function show(i, animate) {
       var q = QUOTES[i];
+      var containerWidth = bodyEl.offsetWidth || 600;
+      var layout = computeLayout(q.text, containerWidth);
+      if (layout.cols !== cols) {
+        cols  = layout.cols;
+        tiles = buildBoard(boardEl, cols);
+      }
+      applyLayout(boardEl, layout);
       attrEl.textContent = q.attr ? '— ' + q.attr : '';
       btnEl.disabled = animate;
       animating = animate;
@@ -277,12 +326,7 @@
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
-        var newCols = getCols();
-        if (newCols !== cols) {
-          cols  = newCols;
-          tiles = buildBoard(boardEl, cols);
-          show(idx, false);
-        }
+        if (hasOpened) show(idx, false);
       }, 150);
     });
   });
