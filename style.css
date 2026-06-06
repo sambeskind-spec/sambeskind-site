@@ -21,9 +21,9 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 
 /* NAV */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-nav .logo { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+nav .logo { font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
 nav .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-nav .nav-links a { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+nav .nav-links a { font-family: var(--font-sans); font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
 nav .nav-links a:hover, nav .nav-links a.active { color: var(--accent); }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--text); }
 .nav-toggle svg { width: 20px; height: 20px; }
@@ -40,7 +40,7 @@ main { margin-top: 56px; }
 .section:first-child { border-top: none; }
 .section-inner { max-width: var(--max-width); margin: 0 auto; }
 .section-number { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.02em; }
-.section-title { font-family: var(--font-sans); font-size: 1.65rem; font-weight: 600; margin-bottom: 1.75rem; letter-spacing: -0.01em; }
+.section-title { font-family: var(--font-sans); font-size: 1.25rem; font-weight: 600; margin-bottom: 1.75rem; letter-spacing: -0.01em; }
 
 /* TYPOGRAPHY */
 p { margin-bottom: 1rem; font-size: 0.95rem; }
@@ -66,15 +66,15 @@ a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover)
 .category-header:first-child { margin-top: 0; }
 
 /* CONTACT */
-.contact-email { font-family: var(--font-mono); font-size: 0.9rem; }
+.contact-email { font-family: var(--font-sans); font-size: 0.9rem; }
 .contact-links { display: flex; gap: 1rem; margin-top: 0.75rem; }
-.contact-links a { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.contact-links a { font-family: var(--font-sans); font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
 .contact-links a:hover { color: var(--accent); }
 
 /* USER MANUAL */
 .manual-intro { font-style: italic; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem; }
 .manual-section { margin-top: 2rem; margin-bottom: 2.5rem; }
-.manual-section.about-sub h2 { color: var(--text); font-size: 1.65rem; letter-spacing: -0.01em; }
+.manual-section.about-sub h2 { color: var(--text); font-size: 1.25rem; letter-spacing: -0.01em; }
 .home-intro > p { margin-bottom: 0.8rem; }
 
 /* HOME GRID (bio + photo) */
@@ -110,7 +110,7 @@ a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover)
 
 /* FOOTER */
 footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
-footer p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+footer p { font-family: var(--font-sans); font-size: 0.8rem; color: var(--accent); font-weight: 500; }
 
 /* PAGE HEADER */
 .page-header { padding: 3rem 2rem 1rem; }
