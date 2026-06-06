@@ -40,7 +40,7 @@ main { margin-top: 56px; }
 .section:first-child { border-top: none; }
 .section-inner { max-width: var(--max-width); margin: 0 auto; }
 .section-number { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.02em; }
-.section-title { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; margin-bottom: 1.75rem; letter-spacing: -0.03em; }
+.section-title { font-family: var(--font-sans); font-size: 1.65rem; font-weight: 600; margin-bottom: 1.75rem; letter-spacing: -0.01em; }
 
 /* TYPOGRAPHY */
 p { margin-bottom: 1rem; font-size: 0.95rem; }
@@ -74,7 +74,7 @@ a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover)
 /* USER MANUAL */
 .manual-intro { font-style: italic; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem; }
 .manual-section { margin-top: 2rem; margin-bottom: 2.5rem; }
-.manual-section.about-sub h2 { color: var(--text); font-size: 1.1rem; }
+.manual-section.about-sub h2 { color: var(--text); font-size: 1.65rem; letter-spacing: -0.01em; }
 .home-intro > p { margin-bottom: 0.8rem; }
 
 /* HOME GRID (bio + photo) */
@@ -84,7 +84,7 @@ a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover)
   .home-grid { grid-template-columns: 1fr; }
   .home-photo { max-width: 160px; }
 }
-.manual-section h2 { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; color: var(--accent); }
+.manual-section h2 { font-family: var(--font-sans); font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: var(--accent); }
 .manual-section p { margin-bottom: 0.85rem; }
 .manual-section ul { list-style: none; margin-bottom: 1rem; }
 .manual-section ul li { padding: 0.3rem 0; padding-left: 1.2rem; position: relative; font-size: 0.95rem; }
@@ -115,7 +115,7 @@ footer p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accen
 /* PAGE HEADER */
 .page-header { padding: 3rem 2rem 1rem; }
 .page-header-inner { max-width: var(--max-width); margin: 0 auto; }
-.page-header h1 { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; letter-spacing: -0.03em; padding-bottom: 0.6rem; border-bottom: 2px solid var(--text); }
+.page-header h1 { font-family: var(--font-sans); font-size: 1.7rem; font-weight: 600; letter-spacing: -0.01em; padding-bottom: 0.6rem; border-bottom: 2px solid var(--text); }
 .page-header + .section { border-top: none; }
 .page-header .page-desc { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem; }
 
@@ -131,13 +131,13 @@ footer p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accen
 .article-header { padding: 3rem 2rem 1rem; }
 .article-header-inner { max-width: var(--max-width); margin: 0 auto; padding-bottom: 0.75rem; border-bottom: 2px solid var(--text); }
 .article-header + .section { border-top: none; }
-.article-header h1 { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.article-header h1 { font-family: var(--font-sans); font-size: 1.9rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.5rem; line-height: 1.25; }
 .article-date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
 .article-subtitle { font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem; }
 .article-body { max-width: var(--max-width); margin: 0 auto; }
 .article-body p { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.75; }
-.article-body h2 { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--accent); }
-.article-body h3 { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+.article-body h2 { font-family: var(--font-sans); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--accent); }
+.article-body h3 { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
 .article-body blockquote { background: var(--bg-section); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; font-style: italic; }
 .article-body blockquote p { margin-bottom: 0; }
 .article-body .callout { background: var(--bg-section); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; }
