@@ -136,11 +136,11 @@ footer p { font-family: var(--font-sans); font-size: 0.8rem; color: var(--accent
 .article-subtitle { font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem; }
 .article-body { max-width: var(--max-width); margin: 0 auto; }
 .article-body p { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.75; }
-.article-body h2 { font-family: var(--font-sans); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--accent); }
+.article-body h2 { font-family: var(--font-sans); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text); }
 .article-body h3 { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
-.article-body blockquote { background: var(--bg-section); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; font-style: italic; }
+.article-body blockquote { background: var(--bg-section); border-left: 3px solid var(--text); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; font-style: italic; }
 .article-body blockquote p { margin-bottom: 0; }
-.article-body .callout { background: var(--bg-section); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; }
+.article-body .callout { background: var(--bg-section); border-left: 3px solid var(--text); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; }
 .article-body .callout p { font-style: italic; margin-bottom: 0; }
 .article-body blockquote .quote-attr { font-style: normal; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.85rem; }
 .article-body figure { margin: 1.75rem 0; }
