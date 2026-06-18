@@ -63,7 +63,14 @@
 
 <div class="solari-modal" id="solariModal">
   <button class="solari-modal-close" id="solariClose" aria-label="Close">✕</button>
-  <button class="solari-view-toggle" id="solariViewToggle" aria-label="Toggle view">list view →</button>
+  <div class="solari-view-switch" id="solariViewSwitch" role="tablist" aria-label="Quote view">
+    <button class="vsw-btn active" data-view="board" aria-label="Board view" title="Board view">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="11" height="11" rx="2"/></svg>
+    </button>
+    <button class="vsw-btn" data-view="list" aria-label="List view" title="List view">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="3" y1="4" x2="13" y2="4"/><line x1="3" y1="8" x2="13" y2="8"/><line x1="3" y1="12" x2="13" y2="12"/></svg>
+    </button>
+  </div>
   <div class="solari-modal-content">
     <div class="solari-board-view" id="solariBoardView">
       <div class="solari-board" id="solariBoard"></div>
@@ -284,7 +291,7 @@
     var toggleEl = document.getElementById('solariToggle');
     var modalEl  = document.getElementById('solariModal');
     var closeEl  = document.getElementById('solariClose');
-    var viewEl   = document.getElementById('solariViewToggle');
+    var switchEl = document.getElementById('solariViewSwitch');
     var listEl   = document.getElementById('quoteList');
     if (!boardEl) return;
 
@@ -370,34 +377,45 @@
     var reduceMotion = window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function typeWriter(span, text) {
+    function typeWriter(item, span, text) {
       var i = 0;
       (function step() {
         span.textContent = text.slice(0, i);
         if (i++ < text.length) setTimeout(step, 12);
-        else span.parentNode.classList.add('done');
+        else item.classList.add('done');
       })();
+    }
+
+    var listItems = [];
+
+    function revealItem(item) {
+      if (item.classList.contains('reveal')) return;
+      item.classList.add('reveal');
+      var span = item.querySelector('.qt-text');
+      var full = item.getAttribute('data-text');
+      if (reduceMotion || item.classList.contains('blurred')) {
+        span.textContent = full;
+        item.classList.add('done');
+      } else {
+        typeWriter(item, span, full);
+      }
+    }
+
+    // Reveal items in order as each crosses the trigger line (55% down the
+    // panel), so they appear one-by-one on scroll rather than all at once.
+    function revealVisible() {
+      var lr = listEl.getBoundingClientRect();
+      var line = lr.top + lr.height * 0.55;
+      for (var i = 0; i < listItems.length; i++) {
+        if (listItems[i].classList.contains('reveal')) continue;
+        if (listItems[i].getBoundingClientRect().top < line) revealItem(listItems[i]);
+        else break;
+      }
     }
 
     function buildList() {
       if (listBuilt) return;
       listBuilt = true;
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var item = entry.target;
-          observer.unobserve(item);
-          var span = item.querySelector('.qt-text');
-          var full = item.getAttribute('data-text');
-          if (reduceMotion || item.classList.contains('blurred')) {
-            span.textContent = full;
-            item.classList.add('done');
-          } else {
-            typeWriter(span, full);
-          }
-          item.classList.add('reveal');
-        });
-      }, { threshold: 0.4 });
 
       QUOTES.forEach(function (q) {
         var item = document.createElement('div');
@@ -412,7 +430,14 @@
           item.appendChild(cite);
         }
         listEl.appendChild(item);
-        observer.observe(item);
+        listItems.push(item);
+      });
+
+      var ticking = false;
+      listEl.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { revealVisible(); ticking = false; });
       });
     }
 
@@ -420,15 +445,21 @@
       inListView = on;
       modalEl.classList.toggle('list-mode', on);
       listEl.setAttribute('aria-hidden', on ? 'false' : 'true');
-      viewEl.textContent = on ? '← board view' : 'list view →';
+      var btns = switchEl.querySelectorAll('.vsw-btn');
+      btns.forEach(function (b) {
+        b.classList.toggle('active', (b.getAttribute('data-view') === 'list') === on);
+      });
       if (on) {
         buildList();
         listEl.scrollTop = 0;
+        requestAnimationFrame(revealVisible);
       }
     }
 
-    viewEl.addEventListener('click', function () {
-      setListView(!inListView);
+    switchEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.vsw-btn');
+      if (!btn) return;
+      setListView(btn.getAttribute('data-view') === 'list');
     });
 
     var resizeTimer;
