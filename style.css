@@ -604,10 +604,10 @@ footer p { font-family: var(--font-sans); font-size: 0.8rem; color: var(--accent
 .quote-item cite {
   display: block;
   margin-top: 0.6rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-style: normal;
-  font-size: 0.72rem;
-  color: rgba(30,29,27,0.45);
+  font-size: 0.85rem;
+  color: rgba(30,29,27,0.5);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -621,12 +621,6 @@ footer p { font-family: var(--font-sans); font-size: 0.8rem; color: var(--accent
 }
 .quote-item.done .qt-caret { display: none; }
 @keyframes qt-blink { 50% { opacity: 0; } }
-
-.quote-item.blurred blockquote {
-  filter: blur(4px);
-  opacity: 0.5;
-  user-select: none;
-}
 
 @media (max-width: 680px) {
   .quote-item blockquote { font-size: 0.95rem; }

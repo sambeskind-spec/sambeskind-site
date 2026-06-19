@@ -110,12 +110,12 @@
     { text: "You're in danger of living a life so comfortable that you will die without ever reaching your full potential.", attr: "David Goggins" },
     { text: "Enthusiasm makes up for a host of deficiencies.", attr: "Barack Obama" },
     { text: "Ban the 'If Onlys'.", attr: null },
-    { text: "No matter what you do, be world class.", attr: null, blur: true },
+    { text: "No matter what you do, be world class.", attr: null },
     { text: "The successful warrior is the average man with laser-like focus.", attr: "Bruce Lee" },
     { text: "Remember when you wanted what you currently have.", attr: null },
     { text: "Invest in getting help. Getting help is a sign of strength.", attr: "John Donohue, CEO of Nike" },
     { text: "No one is going to tell you what to do. You are the 'they'.", attr: "Lisa Solomon, Stanford d.school" },
-    { text: "Slow is smooth, smooth is fast.", attr: null, blur: true },
+    { text: "Slow is smooth, smooth is fast.", attr: null },
     { text: "The bad days are more important than the good days. If you do what you need to do when you don't feel like it, then you maintain the habit. And if you maintain the habit, then all you need is time.", attr: "James Clear" },
     { text: "Your identity does not come from what you do, but instead from who you are.", attr: null },
     { text: "What is something you'd be proud to fail on, if you had the courage to attempt it?", attr: "James Clear" },
@@ -123,7 +123,7 @@
     { text: "A value is not a value unless you'd be willing to let it cost you.", attr: "Ryan Holiday" },
     { text: "One of the most critical things you want to arrange for is failure. Our nervous system responds really well to setbacks. Losses can be the best thing to get your immediate focus.", attr: null },
     { text: "Event + Response = Outcome", attr: "Timothy Kight" },
-    { text: "Take aim, even poorly.", attr: "Mason Wang", blur: true },
+    { text: "Take aim, even poorly.", attr: "Mason Wang" },
     { text: "If you do not change direction, you may end up where you are heading.", attr: "Lao Tzu" },
     { text: "There comes a time in every life when the past recedes and the future opens. It's that moment when you turn to face the unknown. Some will turn back to what they already know. Some will walk straight ahead into uncertainty. I can't tell you which one is right. But I can tell you which one is more fun.", attr: "Phil Knight" },
     { text: "Redefine productivity as presence.", attr: null },
@@ -393,7 +393,7 @@
       item.classList.add('reveal');
       var span = item.querySelector('.qt-text');
       var full = item.getAttribute('data-text');
-      if (reduceMotion || item.classList.contains('blurred')) {
+      if (reduceMotion) {
         span.textContent = full;
         item.classList.add('done');
       } else {
@@ -419,7 +419,7 @@
 
       QUOTES.forEach(function (q) {
         var item = document.createElement('div');
-        item.className = 'quote-item' + (q.blur ? ' blurred' : '');
+        item.className = 'quote-item';
         item.setAttribute('data-text', q.text);
         var bq = document.createElement('blockquote');
         bq.innerHTML = '<span class="qt-text"></span><span class="qt-caret">|</span>';
