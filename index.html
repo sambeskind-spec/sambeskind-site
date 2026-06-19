@@ -103,6 +103,7 @@
   var TILE_GAP     = 2;
 
   var QUOTES = [
+    { text: "What if this moment was the whole point?", attr: null },
     { text: "Leadership is an action, not a position.", attr: "Condoleezza Rice / Donald McGannon" },
     { text: "Less impressed, more involved.", attr: "McConaughey" },
     { text: "How can I have the most fun doing what I need to do today?", attr: "James Clear" },
@@ -126,8 +127,7 @@
     { text: "Take aim, even poorly.", attr: "Mason Wang" },
     { text: "If you do not change direction, you may end up where you are heading.", attr: "Lao Tzu" },
     { text: "There comes a time in every life when the past recedes and the future opens. It's that moment when you turn to face the unknown. Some will turn back to what they already know. Some will walk straight ahead into uncertainty. I can't tell you which one is right. But I can tell you which one is more fun.", attr: "Phil Knight" },
-    { text: "Redefine productivity as presence.", attr: null },
-    { text: "What if this moment was the whole point?", attr: null }
+    { text: "Redefine productivity as presence.", attr: null }
   ];
 
   function getCols() { return window.innerWidth < 680 ? 16 : 24; }
@@ -452,7 +452,8 @@
       if (on) {
         buildList();
         listEl.scrollTop = 0;
-        requestAnimationFrame(revealVisible);
+        // Show only the first quote on open; the rest reveal on scroll.
+        requestAnimationFrame(function () { revealItem(listItems[0]); });
       }
     }
 
