@@ -143,6 +143,10 @@ footer p { font-family: var(--font-sans); font-size: 0.8rem; color: var(--accent
 .article-body .callout { background: var(--bg-section); border-left: 3px solid var(--text); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; }
 .article-body .callout p { font-style: italic; margin-bottom: 0; }
 .article-body blockquote .quote-attr { font-style: normal; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.85rem; }
+.article-body .epigraph { font-style: italic; text-align: center; color: var(--text-muted); font-size: 1.05rem; margin: 1.75rem auto; max-width: 32rem; }
+.article-body .rule { text-align: center; margin: 2.5rem 0; line-height: 1; }
+.article-body .rule::before { content: "—"; color: var(--text-muted); opacity: 0.5; }
+.article-body .article-thanks { font-style: italic; color: var(--text-muted); font-size: 0.9rem; margin-top: 2.5rem; }
 .article-body figure { margin: 1.75rem 0; }
 .article-body figure img { width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--border); }
 .article-body figure.hero img { border: none; }
