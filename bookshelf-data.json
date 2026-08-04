@@ -1,0 +1,102 @@
+{
+  "title": "bookshelf + toolbox",
+  "categories": [
+    {
+      "id": "books",
+      "title": "books",
+      "layout": "links",
+      "metaStyle": "author",
+      "metaLabel": "author",
+      "canHaveNotes": true,
+      "entries": [
+        { "title": "Americana", "url": "https://www.amazon.com/Americana-400-Year-History-American-Capitalism/dp/0399563792", "meta": "Bhu Srinivasan", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Endurance", "url": "https://www.amazon.com/Endurance-Shackletons-Incredible-Alfred-Lansing/dp/0465062881", "meta": "Alfred Lansing", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "The Ruthless Elimination of Hurry", "url": "https://www.amazon.com/Ruthless-Elimination-Hurry-Emotionally-Spiritually/dp/0525653090", "meta": "John Mark Comer", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "How will you measure your life?", "url": "https://www.amazon.com/How-Will-Measure-Your-Life/dp/0062102419", "meta": "Clayton Christensen", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Greenlights", "url": "https://a.co/d/9toF9Ap", "meta": "Matthew McConaughey", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Ego is the enemy", "url": "https://www.amazon.com/Ego-Enemy-Ryan-Holiday/dp/1591847818", "meta": "Ryan Holiday", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Never Split the Difference", "url": "https://www.amazon.com/Never-Split-Difference-Negotiating-Depended/dp/0062407805", "meta": "Christopher Voss", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Can't Hurt Me", "url": "https://www.amazon.com/Cant-Hurt-Me-Master-Your/dp/1544512287", "meta": "David Goggins", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Resonate", "url": "https://www.dropbox.com/scl/fo/lahibexi9vwdqm0uocrxo/AFpIo5e59MRfEkUxVdu1cZE/Resonate%20by%20Nancy%20Duarte?e=1&preview=Resonate+by+Nancy+Duarte.pdf&rlkey=pnaajp4gsng5qh40eo4rzv6vg&subfolder_nav_tracking=1&dl=0", "meta": "Nancy Duarte", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } }
+      ]
+    },
+    {
+      "id": "articles",
+      "title": "articles",
+      "layout": "links",
+      "metaStyle": "tag",
+      "metaLabel": "tag",
+      "canHaveNotes": true,
+      "entries": [
+        { "title": "How to lose time and money", "url": "https://www.paulgraham.com/selfindulgence.html", "meta": "essay", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Learn like an Athlete", "url": "https://perell.com/essay/learn-like-an-athlete/", "meta": "learning", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Searching for Outliers", "url": "https://www.benkuhn.net/outliers/", "meta": "essay", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Unfolding", "url": "https://www.henrikkarlsson.xyz/p/unfolding", "meta": "essay", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Attention is Your Scarcest Resource", "url": "https://www.benkuhn.net/attention/", "meta": "thinking", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Strategies for learning", "url": "https://andymasley.substack.com/p/strategies-for-learning?open=false#%C2%A7use-spaced-repetition", "meta": "learning", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Baumol vs Wright", "url": "https://thelimitcycle.substack.com/p/baumol-vs-wright", "meta": "economics", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Inversion", "url": "https://jamesclear.com/inversion", "meta": "thinking", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "The AI Wildfire is coming", "url": "https://ceodinner.substack.com/p/the-ai-wildfire-is-coming-its-going", "meta": "AI", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Paik Frameworks", "url": "https://docs.google.com/document/u/1/d/1-UiEeoiV0xBFVZgid63FRaph03OCmHzyEExubn63j0U/mobilebasic?pli=1", "meta": "frameworks", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Default Blind", "url": "https://blog.sbensu.com/posts/default-blind/", "meta": "thinking", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Hypothesis Sheets", "url": "https://michaelrbock.com/hypothesis/", "meta": "startups", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Startup Phases", "url": "https://docs.google.com/document/d/1xPc71A-TjEdr6Isj3CJ_vMq9IJtHPsUv/edit", "meta": "startups", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } },
+        { "title": "Horses", "url": "https://andyljones.com/posts/horses.html", "meta": "essay", "notes": { "mainPoints": [], "perspectiveChange": "", "keySnippets": [] } }
+      ]
+    },
+    {
+      "id": "podcasts",
+      "title": "podcasts",
+      "layout": "links",
+      "metaStyle": "none",
+      "canHaveNotes": false,
+      "entries": [
+        { "title": "Ed Thorp", "url": "https://open.spotify.com/episode/22qcWWLSZheEysQEbjkUKs" },
+        { "title": "The Body Language Expert", "url": "https://podcasts.apple.com/us/podcast/the-body-language-expert-stop-using-this-its-making/id1291423644?i=1000679711461" },
+        { "title": "Jesus", "url": "https://podcasts.apple.com/us/podcast/332-jesus/id1141877104?i=1000639573210" },
+        { "title": "Jensen Huang", "url": "https://podcasts.apple.com/us/podcast/376-jensen-huang-founder-of-nvidia/id1141877104?i=1000683725727" },
+        { "title": "Google – The AI Company", "url": "https://podcasts.apple.com/us/podcast/google-the-ai-company/id1050462261?i=1000730326283" },
+        { "title": "Walt Disney", "url": "https://podcasts.apple.com/us/podcast/346-how-walt-disney-built-himself/id1141877104?i=1000653210319" },
+        { "title": "Costco", "url": "https://podcasts.apple.com/us/podcast/costco/id1050462261?i=1000625088063" },
+        { "title": "Mike Beckham – SimpleModern", "url": "https://podcasts.apple.com/us/podcast/the-learning-leader-show-with-ryan-hawk/id985396258?i=1000648689089" }
+      ]
+    },
+    {
+      "id": "newsletters",
+      "title": "newsletters",
+      "layout": "links",
+      "metaStyle": "none",
+      "canHaveNotes": false,
+      "entries": [
+        { "title": "3-2-1 James Clear", "url": "https://jamesclear.com/3-2-1" }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "videos",
+      "layout": "links",
+      "metaStyle": "none",
+      "canHaveNotes": false,
+      "entries": [
+        { "title": "Who Could Possibly Have It Better Than Us?!", "url": "https://www.youtube.com/shorts/_vPsuYgmiz8" },
+        { "title": "Eric Dane's Final Message", "url": "https://www.youtube.com/watch?v=sEMpdwdVpng" },
+        { "title": "#Lionmode", "url": "https://www.youtube.com/watch?v=ERClHCOF14c" },
+        { "title": "#Mambamode", "url": "https://www.youtube.com/shorts/P8IPSmFGtiU" }
+      ]
+    },
+    {
+      "id": "toolbox",
+      "title": "toolbox",
+      "layout": "tools",
+      "metaStyle": "none",
+      "canHaveNotes": false,
+      "entries": [
+        { "title": "Pomodoro Timer", "url": "https://pomofocus.io/", "desc": "I find myself pomodoro'ing all day. The best way to eliminate distractions." },
+        { "title": "Soma", "url": "https://www.soma-health.co/", "desc": "" },
+        { "title": "Wispr Flow", "url": "https://wisprflow.ai/", "desc": "" },
+        { "title": "Claude Code in Cursor", "url": "", "desc": "" },
+        { "title": "Shumer Prompts", "url": "https://shumerprompt.com/", "desc": "The best prompting website I've come across." }
+      ]
+    }
+  ]
+}

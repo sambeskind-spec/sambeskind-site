@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookshelf editor</title>
+<style>
+  :root{
+    --bg:#ffffff; --bg-section:#f7f7f7; --text:#1a1a1a; --text-muted:#737373;
+    --accent:#1e3a8a; --accent-hover:#14275c; --border:#e6e6e6; --tag-bg:#efefef;
+    --font-mono:'JetBrains Mono','SF Mono','Fira Code',monospace;
+    --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --ok:#15803d; --err:#b91c1c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--font-sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:6rem;}
+  a{color:var(--accent);}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+  header h1{font-size:0.95rem;font-weight:600;letter-spacing:-0.01em;}
+  header .sub{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);}
+  .save-btn{font-family:var(--font-sans);font-size:0.82rem;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:0.55rem 1.1rem;cursor:pointer;transition:background 0.15s,opacity 0.15s;}
+  .save-btn:hover{background:var(--accent-hover);}
+  .save-btn:disabled{opacity:0.5;cursor:default;}
+  .status{font-family:var(--font-mono);font-size:0.72rem;min-height:1em;}
+  .status.ok{color:var(--ok);} .status.err{color:var(--err);} .status.busy{color:var(--text-muted);}
+
+  .wrap{max-width:760px;margin:0 auto;padding:1.5rem;}
+  .tabs{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;}
+  .tab{font-family:var(--font-mono);font-size:0.78rem;padding:0.35rem 0.75rem;border:1px solid var(--border);border-radius:999px;background:none;cursor:pointer;color:var(--text-muted);transition:all 0.15s;}
+  .tab:hover{color:var(--text);}
+  .tab.active{background:var(--text);color:#fff;border-color:var(--text);}
+
+  .cat-title{font-family:var(--font-mono);font-size:0.82rem;font-weight:600;border-bottom:2px solid var(--text);padding-bottom:0.5rem;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:baseline;}
+  .add-btn{font-family:var(--font-mono);font-size:0.72rem;background:none;border:1px dashed var(--border);border-radius:6px;padding:0.3rem 0.7rem;cursor:pointer;color:var(--accent);transition:all 0.15s;}
+  .add-btn:hover{border-color:var(--accent);background:var(--bg-section);}
+
+  .card{border:1px solid var(--border);border-radius:8px;margin-bottom:0.6rem;overflow:hidden;background:var(--bg);}
+  .card.open{border-color:var(--accent);box-shadow:0 1px 8px rgba(30,58,138,0.08);}
+  .card-head{display:flex;align-items:center;gap:0.6rem;padding:0.7rem 0.9rem;cursor:pointer;}
+  .card-caret{font-family:var(--font-mono);color:var(--text-muted);transition:transform 0.15s;font-size:0.8rem;}
+  .card.open .card-caret{transform:rotate(90deg);}
+  .card-name{flex:1;font-size:0.9rem;font-weight:500;}
+  .card-name .empty{color:var(--text-muted);font-style:italic;font-weight:400;}
+  .card-meta{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);}
+  .has-notes-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  .card-body{display:none;padding:0.3rem 0.9rem 1rem;border-top:1px solid var(--border);}
+  .card.open .card-body{display:block;}
+
+  .field{margin-top:0.85rem;}
+  .field label{display:block;font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.3rem;}
+  .field input[type=text],.field input[type=url],.field textarea{width:100%;font-family:var(--font-sans);font-size:0.88rem;padding:0.5rem 0.65rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);transition:border-color 0.15s;}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);}
+  .field textarea{resize:vertical;min-height:3.5rem;line-height:1.5;}
+
+  .points{display:flex;flex-direction:column;gap:0.4rem;}
+  .point-row{display:flex;gap:0.4rem;align-items:flex-start;}
+  .point-row textarea{flex:1;min-height:2.4rem;}
+  .icon-btn{background:none;border:1px solid var(--border);border-radius:6px;width:2rem;height:2rem;flex-shrink:0;cursor:pointer;color:var(--text-muted);font-size:1rem;line-height:1;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+  .icon-btn:hover{border-color:var(--err);color:var(--err);}
+  .add-point{align-self:flex-start;margin-top:0.4rem;font-family:var(--font-mono);font-size:0.7rem;background:none;border:none;color:var(--accent);cursor:pointer;padding:0.2rem 0;}
+  .add-point:hover{text-decoration:underline;}
+
+  .card-actions{display:flex;gap:0.5rem;margin-top:1.2rem;padding-top:0.8rem;border-top:1px dashed var(--border);}
+  .card-actions button{font-family:var(--font-mono);font-size:0.7rem;background:none;border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.6rem;cursor:pointer;color:var(--text-muted);transition:all 0.15s;}
+  .card-actions button:hover{color:var(--text);border-color:var(--text);}
+  .card-actions .del:hover{color:var(--err);border-color:var(--err);}
+  .card-actions .spacer{flex:1;}
+
+  .notes-fieldset{margin-top:1rem;padding:0.9rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-section);}
+  .notes-fieldset > .nf-title{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--accent);margin-bottom:0.2rem;}
+  .hint{font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);margin-top:0.6rem;}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>bookshelf editor</h1>
+    <div class="sub" id="subline">local · saves + deploys on push</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:0.9rem;">
+    <span class="status" id="status"></span>
+    <button class="save-btn" id="saveBtn">Save &amp; deploy</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tabs" id="tabs"></div>
+  <div id="panel"></div>
+</div>
+
+<script>
+let data = null;
+let activeCat = 0;
+let openKey = null; // which card is expanded
+
+const $ = (s, r=document) => r.querySelector(s);
+
+async function load(){
+  const res = await fetch('/api/data');
+  data = await res.json();
+  renderTabs();
+  renderPanel();
+}
+
+function renderTabs(){
+  const tabs = $('#tabs');
+  tabs.innerHTML = '';
+  data.categories.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (i === activeCat ? ' active' : '');
+    b.textContent = c.title + ' (' + c.entries.length + ')';
+    b.onclick = () => { activeCat = i; openKey = null; renderTabs(); renderPanel(); };
+    tabs.appendChild(b);
+  });
+}
+
+function metaFieldLabel(cat){
+  if (cat.metaStyle === 'author') return 'Author';
+  if (cat.metaStyle === 'tag') return 'Tag';
+  return null;
+}
+
+function renderPanel(){
+  const cat = data.categories[activeCat];
+  const panel = $('#panel');
+  panel.innerHTML = '';
+
+  const title = document.createElement('div');
+  title.className = 'cat-title';
+  title.innerHTML = '<span>' + cat.title + '</span>';
+  const add = document.createElement('button');
+  add.className = 'add-btn';
+  add.textContent = '+ add ' + (cat.layout === 'tools' ? 'tool' : 'entry');
+  add.onclick = () => addEntry(cat);
+  title.appendChild(add);
+  panel.appendChild(title);
+
+  cat.entries.forEach((entry, idx) => {
+    panel.appendChild(renderCard(cat, entry, idx));
+  });
+}
+
+function cardKey(catIdx, entryIdx){ return catIdx + ':' + entryIdx; }
+
+function renderCard(cat, entry, idx){
+  const key = cardKey(activeCat, idx);
+  const isOpen = openKey === key;
+
+  const card = document.createElement('div');
+  card.className = 'card' + (isOpen ? ' open' : '');
+
+  const head = document.createElement('div');
+  head.className = 'card-head';
+  head.onclick = () => { openKey = isOpen ? null : key; renderPanel(); };
+
+  const caret = document.createElement('span');
+  caret.className = 'card-caret'; caret.textContent = '›';
+  head.appendChild(caret);
+
+  const name = document.createElement('span');
+  name.className = 'card-name';
+  name.innerHTML = entry.title ? escapeHtml(entry.title) : '<span class="empty">untitled</span>';
+  head.appendChild(name);
+
+  if (entryHasNotes(entry)) {
+    const dot = document.createElement('span');
+    dot.className = 'has-notes-dot';
+    dot.title = 'has notes';
+    head.appendChild(dot);
+  }
+  if (entry.meta) {
+    const m = document.createElement('span');
+    m.className = 'card-meta'; m.textContent = entry.meta;
+    head.appendChild(m);
+  }
+  card.appendChild(head);
+
+  if (isOpen) card.appendChild(renderBody(cat, entry, idx));
+  return card;
+}
+
+function renderBody(cat, entry, idx){
+  const body = document.createElement('div');
+  body.className = 'card-body';
+
+  body.appendChild(textField('Title', entry.title || '', v => { entry.title = v; refreshHead(idx); }));
+  body.appendChild(textField('URL', entry.url || '', v => { entry.url = v; }, 'url', 'https://…'));
+
+  const ml = metaFieldLabel(cat);
+  if (ml) body.appendChild(textField(ml, entry.meta || '', v => { entry.meta = v; refreshHead(idx); }));
+
+  if (cat.layout === 'tools') {
+    body.appendChild(areaField('Description', entry.desc || '', v => { entry.desc = v; }));
+  }
+
+  if (cat.canHaveNotes) {
+    if (!entry.notes) entry.notes = { mainPoints: [], perspectiveChange: '', keySnippets: [] };
+    const fs = document.createElement('div');
+    fs.className = 'notes-fieldset';
+    const t = document.createElement('div'); t.className = 'nf-title'; t.textContent = 'notes (optional)';
+    fs.appendChild(t);
+    fs.appendChild(listField('Main points', entry.notes.mainPoints, idx));
+    fs.appendChild(areaField('How my perspective changed', entry.notes.perspectiveChange || '', v => { entry.notes.perspectiveChange = v; refreshHead(idx); }));
+    fs.appendChild(listField('Key snippets', entry.notes.keySnippets, idx));
+    body.appendChild(fs);
+  }
+
+  // actions
+  const actions = document.createElement('div');
+  actions.className = 'card-actions';
+  actions.appendChild(btn('↑ up', () => moveEntry(idx, -1)));
+  actions.appendChild(btn('↓ down', () => moveEntry(idx, 1)));
+  const sp = document.createElement('div'); sp.className = 'spacer'; actions.appendChild(sp);
+  const del = btn('delete', () => deleteEntry(idx)); del.className = 'del'; actions.appendChild(del);
+  body.appendChild(actions);
+
+  return body;
+}
+
+function refreshHead(idx){
+  // update just the header name/dot without collapsing (re-render panel keeps card open)
+  const cat = data.categories[activeCat];
+  const cards = document.querySelectorAll('#panel .card');
+  const card = cards[idx];
+  if (!card) return;
+  const entry = cat.entries[idx];
+  const name = card.querySelector('.card-name');
+  if (name) name.innerHTML = entry.title ? escapeHtml(entry.title) : '<span class="empty">untitled</span>';
+  // dot
+  let dot = card.querySelector('.has-notes-dot');
+  const head = card.querySelector('.card-head');
+  if (entryHasNotes(entry) && !dot) {
+    dot = document.createElement('span'); dot.className = 'has-notes-dot';
+    head.insertBefore(dot, card.querySelector('.card-meta'));
+  } else if (!entryHasNotes(entry) && dot) { dot.remove(); }
+}
+
+function textField(label, val, onInput, type, ph){
+  const f = document.createElement('div'); f.className = 'field';
+  const l = document.createElement('label'); l.textContent = label; f.appendChild(l);
+  const i = document.createElement('input');
+  i.type = type || 'text'; i.value = val; if (ph) i.placeholder = ph;
+  i.oninput = () => onInput(i.value);
+  f.appendChild(i);
+  return f;
+}
+
+function areaField(label, val, onInput){
+  const f = document.createElement('div'); f.className = 'field';
+  const l = document.createElement('label'); l.textContent = label; f.appendChild(l);
+  const t = document.createElement('textarea');
+  t.value = val; t.oninput = () => onInput(t.value);
+  f.appendChild(t);
+  return f;
+}
+
+function listField(label, arr, idx){
+  const f = document.createElement('div'); f.className = 'field';
+  const l = document.createElement('label'); l.textContent = label; f.appendChild(l);
+  const list = document.createElement('div'); list.className = 'points';
+
+  function draw(){
+    list.innerHTML = '';
+    arr.forEach((val, i) => {
+      const row = document.createElement('div'); row.className = 'point-row';
+      const t = document.createElement('textarea'); t.value = val;
+      t.oninput = () => { arr[i] = t.value; refreshHead(idx); };
+      const rm = document.createElement('button'); rm.className = 'icon-btn'; rm.textContent = '×'; rm.title = 'remove';
+      rm.onclick = () => { arr.splice(i, 1); draw(); refreshHead(idx); };
+      row.appendChild(t); row.appendChild(rm);
+      list.appendChild(row);
+    });
+  }
+  draw();
+  f.appendChild(list);
+
+  const addP = document.createElement('button'); addP.className = 'add-point';
+  addP.textContent = '+ add ' + label.toLowerCase().replace(/s$/, '');
+  addP.onclick = () => { arr.push(''); draw(); refreshHead(idx);
+    const areas = list.querySelectorAll('textarea'); if (areas.length) areas[areas.length-1].focus(); };
+  f.appendChild(addP);
+  return f;
+}
+
+function btn(text, onClick){
+  const b = document.createElement('button'); b.textContent = text; b.onclick = onClick; return b;
+}
+
+function addEntry(cat){
+  const entry = cat.layout === 'tools'
+    ? { title: '', url: '', desc: '' }
+    : { title: '', url: '', meta: '' };
+  if (cat.canHaveNotes) entry.notes = { mainPoints: [], perspectiveChange: '', keySnippets: [] };
+  cat.entries.unshift(entry);
+  openKey = cardKey(activeCat, 0);
+  renderTabs(); renderPanel();
+}
+
+function deleteEntry(idx){
+  const cat = data.categories[activeCat];
+  if (!confirm('Delete "' + (cat.entries[idx].title || 'untitled') + '"?')) return;
+  cat.entries.splice(idx, 1);
+  openKey = null;
+  renderTabs(); renderPanel();
+}
+
+function moveEntry(idx, dir){
+  const cat = data.categories[activeCat];
+  const j = idx + dir;
+  if (j < 0 || j >= cat.entries.length) return;
+  const tmp = cat.entries[idx]; cat.entries[idx] = cat.entries[j]; cat.entries[j] = tmp;
+  openKey = cardKey(activeCat, j);
+  renderPanel();
+}
+
+function entryHasNotes(e){
+  if (!e.notes) return false;
+  const mp = (e.notes.mainPoints||[]).some(x => x && x.trim());
+  const ks = (e.notes.keySnippets||[]).some(x => x && x.trim());
+  const pc = (e.notes.perspectiveChange||'').trim();
+  return mp || ks || !!pc;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function setStatus(msg, cls){
+  const s = $('#status'); s.textContent = msg; s.className = 'status ' + (cls||'');
+}
+
+async function save(){
+  const btn = $('#saveBtn'); btn.disabled = true;
+  setStatus('saving + deploying…', 'busy');
+  try {
+    const res = await fetch('/api/save', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const out = await res.json();
+    if (out.ok) setStatus(out.message || 'deployed ✓', 'ok');
+    else setStatus(out.message || 'error', 'err');
+  } catch (e) {
+    setStatus('error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+$('#saveBtn').onclick = save;
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); save(); }
+});
+
+load();
+</script>
+</body>
+</html>
